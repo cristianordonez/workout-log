@@ -21,9 +21,13 @@ async function openDatabase(): Promise<SQLite.WebSQLDatabase> {
 const createInitialData = async (): Promise<void> => {
   const db = await openDatabase();
   db.readTransaction((tx) => {
-    tx.executeSql("select * from exercises", [], (tx, response) => {
-      console.log("response: ", response);
-    });
+    tx.executeSql(
+      "select name from sqlite_schema where type='table'",
+      [],
+      (tx, response) => {
+        console.log("response: ", response.rows._array);
+      }
+    );
   });
 };
 
