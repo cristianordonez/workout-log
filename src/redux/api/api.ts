@@ -18,16 +18,16 @@ async function openDatabase(): Promise<SQLite.WebSQLDatabase> {
   return SQLite.openDatabase("workout_log.db", "1.0");
 }
 
-const getData = async (sql: string): Promise<void> => {
+const getData = async (sql: string): Promise<any> => {
   const db = await openDatabase();
-
-  return new Promise<any>((resolve, reject) => {
+  let promise = new Promise<any>((resolve, reject) => {
     db.readTransaction((tx) => {
       tx.executeSql(
         sql,
         [],
         (_, response) => {
           resolve(response.rows._array);
+          db.closeAsync();
         },
         (_, err) => {
           reject(err);
@@ -36,6 +36,7 @@ const getData = async (sql: string): Promise<void> => {
       );
     });
   });
+  return promise;
 };
 
 export { getData };

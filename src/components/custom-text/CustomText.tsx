@@ -5,15 +5,20 @@ import { useAppSelector } from "../../redux/redux-hooks/hooks";
 interface Props {
   humanText: string;
   type: "h0" | "h1" | "h2" | "h3" | "h4" | "p" | "subtitle1" | "subtitle2";
-  fontFamily?: "Lato_Bold" | "Lato_Italic" | "Lato";
   textAlign?: "left" | "right" | "center";
   opacity?: boolean;
   gap?: boolean;
-  color?: "error" | "text" | "primary" | "secondary" | "button" | "success";
+  color?:
+    | "error"
+    | "text"
+    | "primary"
+    | "secondary"
+    | "button"
+    | "success"
+    | "black";
 }
 
 export const CustomText = ({
-  fontFamily = "Lato",
   textAlign = "center",
   opacity = false,
   gap = false,
@@ -43,6 +48,9 @@ export const CustomText = ({
       break;
     case "success":
       currentColor = colors.success;
+      break;
+    case "black":
+      currentColor = colors.background;
       break;
     default:
       currentColor = colors.text;
@@ -81,7 +89,6 @@ export const CustomText = ({
         {
           textAlign,
           color: currentColor,
-          fontFamily,
         },
         textStyle,
         opacity === true ? { opacity: 0.75 } : { opacity: 1 },

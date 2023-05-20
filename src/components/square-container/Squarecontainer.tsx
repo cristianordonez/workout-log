@@ -5,16 +5,16 @@ import { createFlexGap } from "../../utils/createFlexGap";
 
 interface Props {
   children: React.ReactNode;
-  itemsPerRow: number;
-  gap: number;
+  itemsPerRow?: number;
+  gap?: number;
   index: number;
   handlePress: (index: number) => void;
 }
 
-export const CustomScreenContainerItem = ({
+export const SquareContainer = ({
   children,
-  itemsPerRow,
-  gap,
+  itemsPerRow = 2,
+  gap = 0,
   index,
   handlePress,
 }: Props) => {
@@ -29,7 +29,8 @@ export const CustomScreenContainerItem = ({
       onPress={() => handlePress(index)}
       style={({ pressed }) => [
         {
-          backgroundColor: pressed ? colors.primary : colors.card,
+          backgroundColor: pressed ? colors.button : colors.card,
+          padding: 5,
           height: height,
           width: width,
           marginVertical: marginVertical,

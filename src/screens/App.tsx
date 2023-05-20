@@ -4,8 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { HeaderDate } from "../components/header-date/HeaderDate";
 import { useFonts } from "../hooks/useFonts";
+import { getAllPrograms } from "../redux/reducers/programsReducer";
 import { selectColors } from "../redux/reducers/themeReducer";
-import { getInitialWorkoutData } from "../redux/reducers/workoutsReducer";
+import { getInitialUserData } from "../redux/reducers/userReducer";
 import { useAppDispatch, useAppSelector } from "../redux/redux-hooks/hooks";
 import { History } from "./history";
 import { Home } from "./home";
@@ -36,9 +37,10 @@ export default function App() {
     async function prepare() {
       try {
         await useFonts();
-        await dispatch(getInitialWorkoutData());
+        await dispatch(getInitialUserData());
+        await dispatch(getAllPrograms());
       } catch (err) {
-        console.error("err: ", err);
+        console.error("err in useeffect App.tsx: ", err);
       } finally {
         setIsReady(true);
       }

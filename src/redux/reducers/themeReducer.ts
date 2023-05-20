@@ -47,14 +47,14 @@ const initialState: ThemeState = {
     success: "#4BD37B",
   },
   text: {
-    h0: { fontSize: 24, fontFamily: "Lato_Black" },
+    h0: { fontSize: 22, fontFamily: "Lato_Black" },
     h1: { fontSize: 20, fontFamily: "Lato_Black" },
     h2: { fontSize: 18, fontFamily: "Lato_Bold" },
     h3: { fontSize: 16, fontFamily: "Lato_Bold" },
-    h4: { fontSize: 14, fontFamily: "Lato" },
-    p: { fontSize: 12, fontFamily: "Lato" },
-    subtitle1: { fontSize: 10, fontFamily: "Lato_Light" },
-    subtitle2: { fontSize: 8, fontFamily: "Lato_Thin" },
+    h4: { fontSize: 14, fontFamily: "Lato_Bold" },
+    p: { fontSize: 14, fontFamily: "Lato" },
+    subtitle1: { fontSize: 12, fontFamily: "Lato_Light" },
+    subtitle2: { fontSize: 10, fontFamily: "Lato_Thin" },
   },
 };
 

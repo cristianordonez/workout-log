@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { CustomText } from "../custom-text/CustomText";
+import { headerDateStyles } from "./HeaderDateStyles";
 
 type HeaderDateProps = { children: string; tintColor?: string | undefined };
 
 export const HeaderDate = ({ children, tintColor }: HeaderDateProps) => {
   const [currentDate, setCurrentDate] = useState<string>("");
+  const styles = headerDateStyles;
   useEffect(() => {
     const date = new Date().toLocaleDateString("en-us", {
       weekday: "short",
@@ -15,18 +17,16 @@ export const HeaderDate = ({ children, tintColor }: HeaderDateProps) => {
     setCurrentDate(date);
   }, []);
   return (
-    <View>
+    <View style={styles.container}>
       <CustomText
-        humanText={"Today"}
-        fontFamily="Lato"
+        humanText="Today"
         textAlign="center"
-        type="h4"
+        type="p"
         opacity={true}
-        gap={true}
+        gap={false}
       />
       <CustomText
         humanText={currentDate}
-        fontFamily="Lato_Bold"
         textAlign="center"
         type="p"
         opacity={false}

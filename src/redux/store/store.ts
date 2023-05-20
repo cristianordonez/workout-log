@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
+import programsReducer from "../reducers/programsReducer";
 import themeReducer from "../reducers/themeReducer";
-import workoutsReducer from "../reducers/workoutsReducer";
+import userReducer from "../reducers/userReducer";
 
 export const store = configureStore({
   reducer: {
-    workouts: workoutsReducer,
+    programs: programsReducer,
     theme: themeReducer,
+    user: userReducer,
   },
 });
 
