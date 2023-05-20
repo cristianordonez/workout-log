@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { HeaderDate } from "../components/header-date/HeaderDate";
 import { useFonts } from "../hooks/useFonts";
 import { selectColors } from "../redux/reducers/themeReducer";
-import { useAppSelector } from "../redux/redux-hooks/hooks";
-import { Home } from "./home";
-
+import { getInitialWorkoutData } from "../redux/reducers/workoutsReducer";
+import { useAppDispatch, useAppSelector } from "../redux/redux-hooks/hooks";
 import { History } from "./history";
+import { Home } from "./home";
 import { Progress } from "./progress";
 import { Settings } from "./settings";
 
@@ -18,17 +18,25 @@ type TabParamList = {
   Progress: {};
   Settings: {};
 };
+interface Icons {
+  Home: keyof typeof AntDesign.glyphMap;
+  Progress: keyof typeof AntDesign.glyphMap;
+  History: keyof typeof AntDesign.glyphMap;
+  Settings: keyof typeof AntDesign.glyphMap;
+}
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
 export default function App() {
-  const colors = useAppSelector(selectColors);
   const [isReady, setIsReady] = useState<boolean>(false);
+  const colors = useAppSelector(selectColors);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     async function prepare() {
       try {
         await useFonts();
+        await dispatch(getInitialWorkoutData());
       } catch (err) {
         console.error("err: ", err);
       } finally {
@@ -38,12 +46,6 @@ export default function App() {
     prepare();
   }, []);
 
-  interface Icons {
-    Home: keyof typeof AntDesign.glyphMap;
-    Progress: keyof typeof AntDesign.glyphMap;
-    History: keyof typeof AntDesign.glyphMap;
-    Settings: keyof typeof AntDesign.glyphMap;
-  }
   const NavigationTheme = {
     dark: true,
     colors: {
@@ -55,10 +57,12 @@ export default function App() {
       notification: colors.notification,
     },
   };
+
   if (isReady) {
     return (
       <NavigationContainer theme={NavigationTheme}>
         <Tab.Navigator
+          initialRouteName="Home"
           screenOptions={({ route }) => ({
             headerStyle: { backgroundColor: colors.background },
             headerTitle: (props) => <HeaderDate {...props} />,
@@ -70,7 +74,6 @@ export default function App() {
                 Settings: "setting",
               };
               return (
-                // <Ionicons name={icons[route.name]} size={size} color={color} />
                 <AntDesign name={icons[route.name]} size={size} color={color} />
               );
             },

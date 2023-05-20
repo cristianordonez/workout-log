@@ -1,20 +1,48 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getData } from "../api/api";
 import type { RootState } from "../store/store";
 
-// Define a type for the slice state
 interface WorkoutState {
   value: number;
+  status: "idle" | "pending" | "succeeded" | "failed";
 }
 
-// Define the initial state using that type
 const initialState: WorkoutState = {
   value: 0,
+  status: "idle",
 };
+
+interface Exercises {
+  name: string;
+}
+// todo
+export const getInitialWorkoutData = createAsyncThunk<
+  Exercises,
+  void,
+  { state: RootState }
+>(
+  "workouts/getInititalWorkoutData",
+  async (data, { getState, rejectWithValue }) => {
+    const state = getState();
+    console.log("state: ", state);
+
+    let sql = "select name from sqlite_schema where type='table'";
+    let testdata = await getData(sql);
+    console.log("testdata: ", testdata);
+
+    try {
+      // const data = await getData();
+      console.log("data: ", data);
+    } catch (err) {
+      console.error(err);
+      return rejectWithValue(err);
+    }
+  }
+);
 
 export const workoutSlice = createSlice({
   name: "workouts",
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     increment: (state) => {
@@ -25,11 +53,19 @@ export const workoutSlice = createSlice({
       state.value += action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getInitialWorkoutData.fulfilled, (state, action) => {
+        console.log("action.payload: ", action.payload);
+      })
+      .addCase(getInitialWorkoutData.rejected, (state, action) => {
+        state.status = "failed";
+      });
+  },
 });
 
 export const { increment, incrementByAmount } = workoutSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.workouts.value;
 
 export default workoutSlice.reducer;

@@ -6,7 +6,7 @@ const ProgressStack = createNativeStackNavigator<ProgressStackParamList>();
 
 export function Progress() {
   return (
-    <ProgressStack.Navigator>
+    <ProgressStack.Navigator screenOptions={{ headerShown: false }}>
       <ProgressStack.Screen name="ProgressScreen" component={ProgressScreen} />
     </ProgressStack.Navigator>
   );

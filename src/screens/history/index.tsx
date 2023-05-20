@@ -6,7 +6,7 @@ const HistoryStack = createNativeStackNavigator<HistoryStackParamList>();
 
 export function History() {
   return (
-    <HistoryStack.Navigator>
+    <HistoryStack.Navigator screenOptions={{ headerShown: false }}>
       <HistoryStack.Screen name="HistoryScreen" component={HistoryScreen} />
     </HistoryStack.Navigator>
   );

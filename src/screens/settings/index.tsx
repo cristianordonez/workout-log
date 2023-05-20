@@ -6,7 +6,7 @@ const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
 export function Settings() {
   return (
-    <SettingsStack.Navigator>
+    <SettingsStack.Navigator screenOptions={{ headerShown: false }}>
       <SettingsStack.Screen name="SettingsScreen" component={SettingsScreen} />
     </SettingsStack.Navigator>
   );
