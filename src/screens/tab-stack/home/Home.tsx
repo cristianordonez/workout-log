@@ -1,29 +1,36 @@
+import { CommonActions } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { GestureResponderEvent, View } from "react-native";
-import { Button } from "../../components/button/Button";
-import { CustomText } from "../../components/custom-text/CustomText";
-import { SquareContainer } from "../../components/square-container/SquareContainer";
+import { Button } from "../../../components/button/Button";
+import { CustomText } from "../../../components/custom-text/CustomText";
+import { SquareContainer } from "../../../components/square-container/SquareContainer";
 import {
   selectAllPrograms,
   selectUpcomingWorkouts,
-} from "../../redux/reducers/programsReducer";
-import { selectColors } from "../../redux/reducers/themeReducer";
-import { useAppSelector } from "../../redux/redux-hooks/hooks";
-import { HomeStackParamList } from "../../types/types";
-import { globalStyles } from "../globalStyles";
+} from "../../../redux/reducers/programsReducer";
+import { selectColors } from "../../../redux/reducers/themeReducer";
+import { useAppSelector } from "../../../redux/redux-hooks/hooks";
+import { TabParamList } from "../../../types/types";
+import { globalStyles } from "../../globalStyles";
 import { makeHomeStyles } from "./makeHomeStyles";
+type HomeProps = NativeStackScreenProps<TabParamList, "Home">;
 
-type HomeProps = NativeStackScreenProps<HomeStackParamList, "HomeScreen">;
-
-export function HomeScreen({ navigation }: HomeProps) {
+export function Home({ navigation }: HomeProps) {
   const upcomingWorkouts = useAppSelector(selectUpcomingWorkouts);
   const allPrograms = useAppSelector(selectAllPrograms);
   const colors = useAppSelector(selectColors);
   const styles = makeHomeStyles(colors);
 
   // handles action for quick start btn
+
   const handlePress = (event: GestureResponderEvent) => {
     console.log("event: ", event);
+    navigation.getParent()?.dispatch(
+      CommonActions.navigate({
+        name: "AddProgram",
+        params: {},
+      })
+    );
   };
   return (
     <View style={globalStyles.screen}>

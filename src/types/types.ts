@@ -10,25 +10,17 @@ interface Colors {
   success: string;
   button: string;
 }
-type HomeStackParamList = {
-  HomeScreen: {};
-};
-type HistoryStackParamList = {
-  HistoryScreen: {};
+
+type TabParamList = {
+  Home: {};
+  History: {};
+  Progress: {};
+  Settings: {};
 };
 
-type ProgressStackParamList = {
-  ProgressScreen: {};
+type RootStackParamList = {
+  TabStack: TabParamList;
+  AddProgram: {};
 };
 
-type SettingsStackParamList = {
-  SettingsScreen: {};
-};
-
-export {
-  Colors,
-  HomeStackParamList,
-  HistoryStackParamList,
-  ProgressStackParamList,
-  SettingsStackParamList,
-};
+export { Colors, RootStackParamList, TabParamList };

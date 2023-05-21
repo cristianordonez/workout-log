@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Colors } from "../../types/types";
+import { Colors } from "../../../types/types";
 
 export const makeHomeStyles = (colors: Colors) => {
   return StyleSheet.create({
@@ -7,9 +7,6 @@ export const makeHomeStyles = (colors: Colors) => {
       flex: 1,
       alignItems: "flex-start",
       gap: 10,
-    },
-    btnTextContainer: {
-      width: "100%",
     },
   });
 };

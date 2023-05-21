@@ -1,6 +1,5 @@
-import { AntDesign } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
 import { HeaderDate } from "../components/header-date/HeaderDate";
 import { useFonts } from "../hooks/useFonts";
@@ -8,25 +7,9 @@ import { getAllPrograms } from "../redux/reducers/programsReducer";
 import { selectColors } from "../redux/reducers/themeReducer";
 import { getInitialUserData } from "../redux/reducers/userReducer";
 import { useAppDispatch, useAppSelector } from "../redux/redux-hooks/hooks";
-import { History } from "./history";
-import { Home } from "./home";
-import { Progress } from "./progress";
-import { Settings } from "./settings";
-
-type TabParamList = {
-  Home: {};
-  History: {};
-  Progress: {};
-  Settings: {};
-};
-interface Icons {
-  Home: keyof typeof AntDesign.glyphMap;
-  Progress: keyof typeof AntDesign.glyphMap;
-  History: keyof typeof AntDesign.glyphMap;
-  Settings: keyof typeof AntDesign.glyphMap;
-}
-
-const Tab = createBottomTabNavigator<TabParamList>();
+import { RootStackParamList } from "../types/types";
+import { AddProgram } from "./add-program/AddProgram";
+import { TabStack } from "./tab-stack/TabStack";
 
 export default function App() {
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -60,32 +43,20 @@ export default function App() {
     },
   };
 
+  const RootStack = createNativeStackNavigator<RootStackParamList>();
   if (isReady) {
     return (
       <NavigationContainer theme={NavigationTheme}>
-        <Tab.Navigator
-          initialRouteName="Home"
+        <RootStack.Navigator
+          initialRouteName="TabStack"
           screenOptions={({ route }) => ({
             headerStyle: { backgroundColor: colors.background },
             headerTitle: (props) => <HeaderDate {...props} />,
-            tabBarIcon: ({ color, size }) => {
-              const icons: Icons = {
-                Home: "home",
-                Progress: "linechart",
-                History: "calendar",
-                Settings: "setting",
-              };
-              return (
-                <AntDesign name={icons[route.name]} size={size} color={color} />
-              );
-            },
           })}
         >
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Progress" component={Progress} />
-          <Tab.Screen name="History" component={History} />
-          <Tab.Screen name="Settings" component={Settings} />
-        </Tab.Navigator>
+          <RootStack.Screen name="TabStack" component={TabStack} />
+          <RootStack.Screen name="AddProgram" component={AddProgram} />
+        </RootStack.Navigator>
       </NavigationContainer>
     );
   } else {
