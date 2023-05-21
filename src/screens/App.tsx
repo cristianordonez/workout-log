@@ -8,12 +8,17 @@ import { getAllPrograms } from "../redux/reducers/programsReducer";
 import { selectColors } from "../redux/reducers/themeReducer";
 import { getInitialUserData } from "../redux/reducers/userReducer";
 import { useAppDispatch, useAppSelector } from "../redux/redux-hooks/hooks";
-import { TabParamList } from "../types/types";
 import { History } from "./history";
 import { Home } from "./home";
 import { Progress } from "./progress";
 import { Settings } from "./settings";
 
+type TabParamList = {
+  Home: {};
+  History: {};
+  Progress: {};
+  Settings: {};
+};
 interface Icons {
   Home: keyof typeof AntDesign.glyphMap;
   Progress: keyof typeof AntDesign.glyphMap;

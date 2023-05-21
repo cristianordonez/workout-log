@@ -23,7 +23,6 @@ export function HomeScreen({ navigation }: HomeProps) {
 
   // handles action for quick start btn
   const handlePress = (event: GestureResponderEvent) => {
-    navigation.navigate({ name: "AddProgramScreen", params: {} });
     console.log("event: ", event);
   };
   return (

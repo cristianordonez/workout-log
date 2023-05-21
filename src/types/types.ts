@@ -12,7 +12,6 @@ interface Colors {
 }
 type HomeStackParamList = {
   HomeScreen: {};
-  AddProgramScreen: {};
 };
 type HistoryStackParamList = {
   HistoryScreen: {};
@@ -26,18 +25,10 @@ type SettingsStackParamList = {
   SettingsScreen: {};
 };
 
-type TabParamList = {
-  Home: {};
-  History: {};
-  Progress: {};
-  Settings: {};
-};
-
 export {
   Colors,
   HomeStackParamList,
   HistoryStackParamList,
   ProgressStackParamList,
   SettingsStackParamList,
-  TabParamList,
 };
