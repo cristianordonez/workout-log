@@ -36,15 +36,16 @@ interface ThemeState {
 const initialState: ThemeState = {
   colors: {
     primary: "#AE71EA",
-    secondary: "#14FFEC",
+    secondary: "#4355FA",
     background: "#000000",
     card: "#0F0F0F",
     text: "#FFFFFF",
-    border: "#0F0F0F",
+    border: "#3A3A3A",
     notification: "#0F0F0F",
     error: "#EF4444",
     button: "#9CA5F2",
     success: "#4BD37B",
+    black: "#FFFFFF",
   },
   text: {
     h0: { fontSize: 22, fontFamily: "Lato_Black" },

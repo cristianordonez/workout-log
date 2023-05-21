@@ -1,29 +1,23 @@
 import { Text } from "react-native";
 import { selectColors, selectText } from "../../redux/reducers/themeReducer";
 import { useAppSelector } from "../../redux/redux-hooks/hooks";
+import { Colors } from "../../types/types";
 
 interface Props {
   humanText: string;
-  type: "h0" | "h1" | "h2" | "h3" | "h4" | "p" | "subtitle1" | "subtitle2";
+  type?: "h0" | "h1" | "h2" | "h3" | "h4" | "p" | "subtitle1" | "subtitle2";
   textAlign?: "left" | "right" | "center";
   opacity?: boolean;
   gap?: boolean;
-  color?:
-    | "error"
-    | "text"
-    | "primary"
-    | "secondary"
-    | "button"
-    | "success"
-    | "black";
+  color?: keyof Colors;
 }
 
 export const CustomText = ({
   textAlign = "center",
   opacity = false,
   gap = false,
+  type = "p",
   humanText,
-  type,
   color,
 }: Props) => {
   const colors = useAppSelector(selectColors);

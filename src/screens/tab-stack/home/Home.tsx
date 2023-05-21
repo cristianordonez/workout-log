@@ -24,7 +24,6 @@ export function Home({ navigation }: HomeProps) {
   // handles action for quick start btn
 
   const handlePress = (event: GestureResponderEvent) => {
-    console.log("event: ", event);
     navigation.getParent()?.dispatch(
       CommonActions.navigate({
         name: "AddProgram",

@@ -52,6 +52,8 @@ export default function App() {
           screenOptions={({ route }) => ({
             headerStyle: { backgroundColor: colors.background },
             headerTitle: (props) => <HeaderDate {...props} />,
+            headerBackTitleVisible: false,
+            headerTitleAlign: "center",
           })}
         >
           <RootStack.Screen name="TabStack" component={TabStack} />
