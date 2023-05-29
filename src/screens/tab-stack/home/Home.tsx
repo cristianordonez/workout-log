@@ -42,7 +42,7 @@ export function Home({ navigation }: HomeProps) {
       {/* My Programs section */}
       <View style={styles.mainSection}>
         <CustomText humanText="My Programs" type="h0" />
-        <SquareContainer index={0} handlePress={() => console.log("here")}>
+        <SquareContainer index={0} handlePress={handlePress}>
           <CustomText
             humanText="Tap to Add New Program"
             type="h3"
@@ -59,7 +59,10 @@ export function Home({ navigation }: HomeProps) {
       {/* Quick Start section */}
       <View style={styles.mainSection}>
         <CustomText humanText="Quick Start" type="h0" />
-        <Button text="Start an Empty Workout" handlePress={handlePress} />
+        <Button
+          text="Start an Empty Workout"
+          handlePress={() => console.log("test")}
+        />
       </View>
     </View>
   );

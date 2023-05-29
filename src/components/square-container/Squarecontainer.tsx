@@ -1,4 +1,4 @@
-import { Pressable } from "react-native";
+import { GestureResponderEvent, Pressable } from "react-native";
 import { selectColors } from "../../redux/reducers/themeReducer";
 import { useAppSelector } from "../../redux/redux-hooks/hooks";
 import { createFlexGap } from "../../utils/createFlexGap";
@@ -8,7 +8,7 @@ interface Props {
   itemsPerRow?: number;
   gap?: number;
   index: number;
-  handlePress: (index: number) => void;
+  handlePress: (event: GestureResponderEvent) => void;
 }
 
 export const SquareContainer = ({
@@ -26,7 +26,7 @@ export const SquareContainer = ({
 
   return (
     <Pressable
-      onPress={() => handlePress(index)}
+      onPress={handlePress}
       style={({ pressed }) => [
         {
           backgroundColor: pressed ? colors.button : colors.card,

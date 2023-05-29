@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import exercisesReducer from "../reducers/exercisesReducer";
 import programsReducer from "../reducers/programsReducer";
 import themeReducer from "../reducers/themeReducer";
 import userReducer from "../reducers/userReducer";
@@ -8,6 +9,7 @@ export const store = configureStore({
     programs: programsReducer,
     theme: themeReducer,
     user: userReducer,
+    exercises: exercisesReducer,
   },
 });
 

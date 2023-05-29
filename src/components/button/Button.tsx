@@ -56,6 +56,7 @@ export function Button({
   return (
     <Pressable
       onPress={handlePress}
+      style={styles.container}
       children={({ pressed }) =>
         type == "button" ? (
           <View

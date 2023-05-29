@@ -3,6 +3,9 @@ import { Colors } from "../../types/types";
 
 export const makeButtonStyles = (selectedColor: keyof Colors, colors: Colors) =>
   StyleSheet.create({
+    container: {
+      width: "100%",
+    },
     btnDefault: {
       backgroundColor: colors[selectedColor],
     },

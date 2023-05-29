@@ -9,6 +9,7 @@ interface Colors {
   error: string;
   success: string;
   button: string;
+  black: string;
 }
 
 type TabParamList = {
@@ -21,8 +22,16 @@ type TabParamList = {
 type RootStackParamList = {
   TabStack: TabParamList;
   AddProgram: {};
+  SelectExercise: {};
 };
 
+interface Exercise {
+  id: number;
+  name: string;
+  equipment: string;
+  gif: string;
+  body_part: string;
+}
 type TextContentType =
   | "none"
   | "URL"
@@ -53,4 +62,4 @@ type TextContentType =
   | "newPassword"
   | "oneTimeCode";
 
-export { Colors, RootStackParamList, TabParamList, TextContentType };
+export { Colors, RootStackParamList, TabParamList, TextContentType, Exercise };

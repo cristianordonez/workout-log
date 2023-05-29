@@ -3,12 +3,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
 import { HeaderDate } from "../components/header-date/HeaderDate";
 import { useFonts } from "../hooks/useFonts";
+import { getInitialExercises } from "../redux/reducers/exercisesReducer";
 import { getAllPrograms } from "../redux/reducers/programsReducer";
 import { selectColors } from "../redux/reducers/themeReducer";
 import { getInitialUserData } from "../redux/reducers/userReducer";
 import { useAppDispatch, useAppSelector } from "../redux/redux-hooks/hooks";
 import { RootStackParamList } from "../types/types";
-import { AddProgram } from "./add-program/AddProgram";
+import { AddProgram } from "./AddProgram";
+import { SelectExercise } from "./SelectExercise";
 import { TabStack } from "./tab-stack/TabStack";
 
 export default function App() {
@@ -22,6 +24,7 @@ export default function App() {
         await useFonts();
         await dispatch(getInitialUserData());
         await dispatch(getAllPrograms());
+        await dispatch(getInitialExercises());
       } catch (err) {
         console.error("err in useeffect App.tsx: ", err);
       } finally {
@@ -58,6 +61,12 @@ export default function App() {
         >
           <RootStack.Screen name="TabStack" component={TabStack} />
           <RootStack.Screen name="AddProgram" component={AddProgram} />
+          <RootStack.Group screenOptions={{ presentation: "modal" }}>
+            <RootStack.Screen
+              name="SelectExercise"
+              component={SelectExercise}
+            />
+          </RootStack.Group>
         </RootStack.Navigator>
       </NavigationContainer>
     );
