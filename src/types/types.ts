@@ -22,10 +22,10 @@ type TabParamList = {
 type RootStackParamList = {
   TabStack: TabParamList;
   AddProgram: {};
-  SelectExercise: {};
+  SelectExercise: { eventId: string };
 };
 
-interface Exercise {
+interface ExerciseType {
   id: number;
   name: string;
   equipment: string;
@@ -62,4 +62,24 @@ type TextContentType =
   | "newPassword"
   | "oneTimeCode";
 
-export { Colors, RootStackParamList, TabParamList, TextContentType, Exercise };
+interface ProgramForm {
+  programName: string;
+}
+
+interface SelectExerciseSearch {
+  exerciseName: string;
+}
+
+// todo change this type of any to explicit type
+type FormControlType = any;
+
+export {
+  Colors,
+  RootStackParamList,
+  TabParamList,
+  TextContentType,
+  ExerciseType,
+  ProgramForm,
+  SelectExerciseSearch,
+  FormControlType,
+};

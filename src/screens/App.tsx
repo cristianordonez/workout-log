@@ -9,8 +9,8 @@ import { selectColors } from "../redux/reducers/themeReducer";
 import { getInitialUserData } from "../redux/reducers/userReducer";
 import { useAppDispatch, useAppSelector } from "../redux/redux-hooks/hooks";
 import { RootStackParamList } from "../types/types";
-import { AddProgram } from "./AddProgram";
-import { SelectExercise } from "./SelectExercise";
+import { AddProgram } from "./add-program-screen/AddProgram";
+import { SelectExercise } from "./select-exercise-screen/SelectExercise";
 import { TabStack } from "./tab-stack/TabStack";
 
 export default function App() {
@@ -55,8 +55,9 @@ export default function App() {
           screenOptions={({ route }) => ({
             headerStyle: { backgroundColor: colors.background },
             headerTitle: (props) => <HeaderDate {...props} />,
-            headerBackTitleVisible: false,
             headerTitleAlign: "center",
+            headerShadowVisible: false,
+            headerBackTitleVisible: false,
           })}
         >
           <RootStack.Screen name="TabStack" component={TabStack} />

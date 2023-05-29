@@ -1,23 +1,27 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Exercise } from "../../types/types";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from "@reduxjs/toolkit";
+import { ExerciseType } from "../../types/types";
 import { getData } from "../api/api";
 import type { RootState } from "../store/store";
 
 interface ExerciseState {
-  allExercises: Exercise[];
-  currentExercises: Exercise[];
+  allExercises: ExerciseType[];
+  searchQuery: string;
   status: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: ExerciseState = {
   allExercises: [],
-  currentExercises: [],
+  searchQuery: "",
   status: "idle",
 };
 
 // updates initial state with all programs from sqlite file
 export const getInitialExercises = createAsyncThunk<
-  Exercise[],
+  ExerciseType[],
   void,
   { state: RootState }
 >("programs/getAllPrograms", async (_, { rejectWithValue }) => {
@@ -31,36 +35,14 @@ export const getInitialExercises = createAsyncThunk<
   }
 });
 
-// get exercise by given search query
-export const getExercisesByName = createAsyncThunk<
-  Exercise[],
-  string,
-  { state: RootState }
->(
-  "exercises/getExercisesByName",
-  async (search_query: string, { getState, rejectWithValue }) => {
-    try {
-      const state = getState();
-      if (search_query.length == 0) {
-        return state.exercises.allExercises;
-      } else {
-        const sql =
-          "select id, name, equipment, gif, body_part from exercises where name like ?";
-        const arg = "%" + search_query.toLowerCase() + "%";
-        const allExercises = await getData(sql, arg);
-        return allExercises;
-      }
-    } catch (err) {
-      console.error("err in getExercisesByName: ", err);
-      return rejectWithValue(err);
-    }
-  }
-);
-
 export const exercisesSlice = createSlice({
   name: "exercises",
   initialState,
-  reducers: {},
+  reducers: {
+    updateSearchQuery(state, action) {
+      state.searchQuery = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getInitialExercises.pending, (state) => {
@@ -74,22 +56,30 @@ export const exercisesSlice = createSlice({
       })
       .addCase(getInitialExercises.rejected, (state, action) => {
         state.status = "failed";
-      }),
-      builder
-        .addCase(getExercisesByName.fulfilled, (state, action) => {
-          if (action.payload.length) {
-            state.currentExercises = action.payload;
-          }
-        })
-        .addCase(getExercisesByName.rejected, (state, action) => {
-          console.log("action.payload: ", action.payload);
-        });
+      });
   },
 });
 
-export const {} = exercisesSlice.actions;
+export const { updateSearchQuery } = exercisesSlice.actions;
 
 export const selectAllExercises = (state: RootState) =>
   state.exercises.allExercises;
 
+export const selectSearchQuery = (state: RootState) =>
+  state.exercises.searchQuery;
+
+//get a list of unique exercises found in currently selected program
+export const selectMatchingExercises = createSelector(
+  [
+    selectAllExercises,
+    (state: RootState) => {
+      return state;
+    },
+  ],
+  (exercises, state) => {
+    return exercises.filter((exercise) =>
+      exercise.name.startsWith(state.exercises.searchQuery.toLowerCase())
+    );
+  }
+);
 export default exercisesSlice.reducer;

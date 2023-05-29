@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { CustomText } from "../custom-text/CustomText";
-import { headerDateStyles } from "./HeaderDateStyles";
+import { headerDateStyles } from "./headerDateStyles";
 
 type HeaderDateProps = { children: string; tintColor?: string | undefined };
 

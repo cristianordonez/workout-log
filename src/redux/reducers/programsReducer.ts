@@ -2,6 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getData } from "../api/api";
 import type { RootState } from "../store/store";
 
+const initialDayState = {
+  day: 1,
+};
+const initialNewProgramState = {
+  days: [initialDayState],
+};
 interface ProgramsState {
   all_programs: any[];
   upcoming_workouts: any[];

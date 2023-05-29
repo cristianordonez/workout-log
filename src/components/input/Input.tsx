@@ -2,25 +2,24 @@ import { useController } from "react-hook-form";
 import { KeyboardTypeOptions, TextInput } from "react-native";
 import { selectColors } from "../../redux/reducers/themeReducer";
 import { useAppSelector } from "../../redux/redux-hooks/hooks";
-import { TextContentType } from "../../types/types";
+import { FormControlType, TextContentType } from "../../types/types";
 import { makeInputStyles } from "./makeInputStyles";
 
 interface Props {
+  name: string;
   secureTextEntry?: boolean;
   keyboardType?: KeyboardTypeOptions | undefined;
   textContentType?: TextContentType;
   label: string;
-  control: any;
-  // control: Control<SignupForm | LoginForm, unknown>;
-  name: string;
+  control?: FormControlType;
 }
 
 export const Input = ({
   secureTextEntry = false,
   keyboardType = "default",
   textContentType = "none",
-  label,
   control,
+  label,
   name,
 }: Props) => {
   const {

@@ -1,46 +1,57 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useState } from "react";
-import { View } from "react-native";
+import { useEffect, useState } from "react";
+import { DeviceEventEmitter, View } from "react-native";
 import { selectColors } from "../../redux/reducers/themeReducer";
 import { useAppSelector } from "../../redux/redux-hooks/hooks";
-import { Exercise, RootStackParamList } from "../../types/types";
+import {
+  ExerciseType,
+  FormControlType,
+  RootStackParamList,
+} from "../../types/types";
 import { Button } from "../button/Button";
 import { CustomText } from "../custom-text/CustomText";
 import { Input } from "../input/Input";
+import { makeNewDayStyles } from "./makeNewDayStyles";
 
 interface Props {
   day: number;
-  // change type any
-  control: any;
+  control: FormControlType;
+  id: number;
 }
 
-export function NewDay({ day, control }: Props) {
-  const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>([]);
+export function NewDay({ day, control, id }: Props) {
+  const [workoutExercises, setWorkoutExercises] = useState<ExerciseType[]>([]);
   const colors = useAppSelector(selectColors);
+  const styles = makeNewDayStyles(colors);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const eventId = `onExerciseSelected${id}`;
 
+  useEffect(() => {
+    const handleExerciseSelected = (exerciseId: number) => {
+      console.log("exerciseId in NewDay component: ", exerciseId);
+    };
+    DeviceEventEmitter.addListener(eventId, handleExerciseSelected);
+    return () => {
+      DeviceEventEmitter.removeAllListeners(eventId);
+    };
+  }, []);
+  // navigates to selectExercise screen modal
   const handleAddExercise = () => {
-    navigation.navigate({ name: "SelectExercise", params: {} });
+    navigation.navigate({
+      name: "SelectExercise",
+      params: { eventId },
+    });
   };
 
   return (
     <View>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          backgroundColor: colors.card,
-          height: 50,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <View style={styles.programDay}>
           <CustomText humanText={`Day ${day}`} color="text" />
         </View>
-        <View style={{ flex: 2 }}>
+        <View style={styles.dayInput}>
           <Input control={control} name="" label="Edit Day Name" />
         </View>
       </View>
