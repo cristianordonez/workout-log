@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
+import currentProgramsReducer from "../reducers/currentProgramsReducer";
 import exercisesReducer from "../reducers/exercisesReducer";
-import programsReducer from "../reducers/programsReducer";
+import newProgramReducer from "../reducers/newProgramReducer";
 import themeReducer from "../reducers/themeReducer";
 import userReducer from "../reducers/userReducer";
 
 export const store = configureStore({
   reducer: {
-    programs: programsReducer,
+    newProgram: newProgramReducer,
+    currentPrograms: currentProgramsReducer,
     theme: themeReducer,
     user: userReducer,
     exercises: exercisesReducer,

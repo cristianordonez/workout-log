@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   Keyboard,
@@ -9,19 +9,17 @@ import {
 } from "react-native";
 import { Button } from "../../components/button/Button";
 import { InputHeader } from "../../components/input-header/InputHeader";
-import { NewDay } from "../../components/new-day/index";
+import { NewDay } from "../../components/new-day/NewDay";
+import { selectNewProgramDays } from "../../redux/reducers/newProgramReducer";
+import { useAppSelector } from "../../redux/redux-hooks/hooks";
 import { ProgramForm, RootStackParamList } from "../../types/types";
 import { globalStyles } from "../globalStyles";
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, "AddProgram">;
 
-interface Day {
-  day: number;
-}
-
 export function AddProgram({ navigation }: HomeProps) {
-  const [days, setDays] = useState<Day[]>([{ day: 1 }]);
-  const { control, handleSubmit, setError, formState } = useForm<ProgramForm>({
+  const days = useAppSelector(selectNewProgramDays);
+  const { control } = useForm<ProgramForm>({
     defaultValues: {
       programName: "",
     },
@@ -43,12 +41,12 @@ export function AddProgram({ navigation }: HomeProps) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView style={globalStyles.screen}>
-        {days.map((currentDay) => (
+        {days.map((currentDay, index) => (
           <NewDay
-            key={currentDay.day}
-            day={currentDay.day}
+            key={currentDay.dayRankOrder}
+            dayId={currentDay.dayId}
+            dayRankOrder={currentDay.dayRankOrder}
             control={control}
-            id={currentDay.day}
           />
         ))}
         <View>

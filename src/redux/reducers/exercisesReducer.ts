@@ -82,4 +82,9 @@ export const selectMatchingExercises = createSelector(
     );
   }
 );
+
+export const getExerciseById = (id: number) => (state: RootState) => {
+  return state.exercises.allExercises.filter((exercise) => exercise.id == id);
+};
+
 export default exercisesSlice.reducer;

@@ -7,7 +7,7 @@ import { SquareContainer } from "../../../components/square-container/SquareCont
 import {
   selectAllPrograms,
   selectUpcomingWorkouts,
-} from "../../../redux/reducers/programsReducer";
+} from "../../../redux/reducers/currentProgramsReducer";
 import { selectColors } from "../../../redux/reducers/themeReducer";
 import { useAppSelector } from "../../../redux/redux-hooks/hooks";
 import { TabParamList } from "../../../types/types";

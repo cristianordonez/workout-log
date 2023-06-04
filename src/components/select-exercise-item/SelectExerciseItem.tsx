@@ -5,16 +5,16 @@ import { useAppSelector } from "../../redux/redux-hooks/hooks";
 import { ExerciseType } from "../../types/types";
 import { formatTitle } from "../../utils/formatTitle";
 import { CustomText } from "../custom-text/CustomText";
-import { makeExerciseStyles } from "./makeExerciseStyles";
+import { makeSelectExerciseItemStyles } from "./makeSelectExerciseItemStyles";
 
 interface Props {
   item: ExerciseType;
   onPress: (event: GestureResponderEvent) => void;
 }
 
-export function Exercise({ item, onPress }: Props) {
+export function SelectExerciseItem({ item, onPress }: Props) {
   const colors = useAppSelector(selectColors);
-  const styles = makeExerciseStyles(colors);
+  const styles = makeSelectExerciseItemStyles(colors);
   return (
     <TouchableOpacity onPress={onPress} style={styles.exerciseContainer}>
       <View style={styles.name}>

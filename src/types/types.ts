@@ -25,13 +25,6 @@ type RootStackParamList = {
   SelectExercise: { eventId: string };
 };
 
-interface ExerciseType {
-  id: number;
-  name: string;
-  equipment: string;
-  gif: string;
-  body_part: string;
-}
 type TextContentType =
   | "none"
   | "URL"
@@ -73,6 +66,48 @@ interface SelectExerciseSearch {
 // todo change this type of any to explicit type
 type FormControlType = any;
 
+// SETS
+interface SetType {
+  setRankOrder: number;
+  isAmrap: boolean;
+  noReps: number;
+  type: "percentage" | "absolute";
+  percentageMultiplier: number | null;
+  weight: number;
+  setId: number | null;
+  exerciseId: number | null;
+  dayId: number | null;
+}
+// EXERCISE
+interface ExerciseType {
+  id: number;
+  name: string;
+  equipment: string;
+  gif: string;
+  body_part: string;
+}
+interface NewExercise {
+  exerciseRankOrder: number;
+  dayId: number | null;
+}
+type AddExerciseType = NewExercise & ExerciseType;
+
+// DAYS
+interface UpdateNewDay {
+  dayId: number;
+  exercise: ExerciseType;
+}
+interface Day {
+  dayId: number;
+  dayRankOrder: number;
+  name: string;
+}
+
+interface Program {
+  programName: string;
+  programId: number;
+}
+
 export {
   Colors,
   RootStackParamList,
@@ -82,4 +117,10 @@ export {
   ProgramForm,
   SelectExerciseSearch,
   FormControlType,
+  Day,
+  Program,
+  AddExerciseType,
+  SetType,
+  UpdateNewDay,
+  NewExercise,
 };

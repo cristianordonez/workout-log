@@ -8,8 +8,8 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Exercise } from "../../components/exercise/Exercise";
 import { InputHeader } from "../../components/input-header/InputHeader";
+import { SelectExerciseItem } from "../../components/select-exercise-item/SelectExerciseItem";
 import {
   selectMatchingExercises,
   updateSearchQuery,
@@ -56,10 +56,10 @@ export function SelectExercise({ navigation, route }: HomeProps) {
   // render exercise item with onPress handler that return id of selected exercise
   const renderItem = ({ item }: { item: ExerciseType }) => {
     const handleItemPress = () => {
-      DeviceEventEmitter.emit(eventId, item.id);
+      DeviceEventEmitter.emit(eventId, item);
       navigation.goBack();
     };
-    return <Exercise item={item} onPress={handleItemPress} />;
+    return <SelectExerciseItem item={item} onPress={handleItemPress} />;
   };
 
   return (

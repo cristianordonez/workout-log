@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../../types/types";
 
-export const makeExerciseStyles = (colors: Colors) =>
+export const makeSelectExerciseItemStyles = (colors: Colors) =>
   StyleSheet.create({
     exerciseContainer: {
       height: 50,
