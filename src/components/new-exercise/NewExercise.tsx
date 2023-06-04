@@ -1,4 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { View } from "react-native";
 import { getSetsByDayAndExerciseId } from "../../redux/reducers/newProgramReducer";
 import { useAppSelector } from "../../redux/redux-hooks/hooks";
@@ -22,11 +23,18 @@ export function NewExercise({
   exerciseRankOrder,
   handleAddSet,
 }: Props) {
-  console.log("name: ", name);
   const sets = useAppSelector((state) =>
     getSetsByDayAndExerciseId(state, dayId, exerciseId)
   );
-  console.log("sets: ", sets);
+  const { control } = useFormContext();
+
+  // field arrays for sets
+  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+    {
+      control, // control props comes from useForm (optional: if you are using FormContext)
+      name: "sets",
+    }
+  );
 
   return (
     <View>
@@ -34,9 +42,16 @@ export function NewExercise({
         <CustomText humanText={formatTitle(name)} type="h3" />
         <AntDesign name="edit" size={24} color="#ffffff" />
       </View>
-      {sets.map((set) => (
-        <NewSet key={set.setId} />
-      ))}
+      <View>
+        <CustomText humanText="Set" type="h4" />
+        {sets.map((set) => (
+          <NewSet
+            key={set.setId}
+            setRankOrder={set.rankOrder}
+            setId={set.setId}
+          />
+        ))}
+      </View>
       <Button
         text="Add Set"
         handlePress={() => handleAddSet(exerciseId)}

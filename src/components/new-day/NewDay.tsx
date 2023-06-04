@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useEffect } from "react";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { DeviceEventEmitter, View } from "react-native";
 import {
   addNewProgramExercise,
@@ -9,12 +10,7 @@ import {
 } from "../../redux/reducers/newProgramReducer";
 import { selectColors } from "../../redux/reducers/themeReducer";
 import { useAppDispatch, useAppSelector } from "../../redux/redux-hooks/hooks";
-import {
-  ExerciseType,
-  FormControlType,
-  RootStackParamList,
-} from "../../types/types";
-import { getUniqueId } from "../../utils/getUniqueId";
+import { ExerciseType, RootStackParamList } from "../../types/types";
 import { Button } from "../button/Button";
 import { CustomText } from "../custom-text/CustomText";
 import { Input } from "../input/Input";
@@ -22,12 +18,11 @@ import { NewExercise } from "../new-exercise/NewExercise";
 import { makeNewDayStyles } from "./makeNewDayStyles";
 
 interface Props {
-  control: FormControlType;
   dayRankOrder: number;
   dayId: number;
 }
 
-export function NewDay({ control, dayRankOrder, dayId }: Props) {
+export function NewDay({ dayRankOrder, dayId }: Props) {
   const dispatch = useAppDispatch();
   const newExercises = useAppSelector((state) =>
     getNewProgramExercisesByDayId(state, dayId)
@@ -37,6 +32,15 @@ export function NewDay({ control, dayRankOrder, dayId }: Props) {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const eventId = `onExerciseSelected${dayId}`;
+  const { control } = useFormContext();
+
+  // field arrays for days
+  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+    {
+      control,
+      name: "sets",
+    }
+  );
 
   // called when selecting a new exercise from selectExercise screen to update new program exercises
   const handleExerciseSelected = (exercise: ExerciseType) => {
@@ -61,8 +65,7 @@ export function NewDay({ control, dayRankOrder, dayId }: Props) {
 
   // updates new program exercise with new set object
   const handleAddSet = (exerciseId: number) => {
-    const setId = getUniqueId();
-    dispatch(addNewProgramSet({ dayId, exerciseId, setId }));
+    dispatch(addNewProgramSet({ dayId, exerciseId }));
   };
 
   return (
@@ -75,12 +78,12 @@ export function NewDay({ control, dayRankOrder, dayId }: Props) {
           <Input control={control} name="" label="Edit Day Name" />
         </View>
       </View>
-      {newExercises.map((exercise, index) => (
+      {newExercises.map((exercise) => (
         <NewExercise
           key={exercise.id}
           exerciseId={exercise.id}
           name={exercise.name}
-          exerciseRankOrder={index}
+          exerciseRankOrder={exercise.rankOrder}
           dayId={dayId}
           handleAddSet={handleAddSet}
         />

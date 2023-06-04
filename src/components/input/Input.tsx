@@ -11,7 +11,7 @@ interface Props {
   keyboardType?: KeyboardTypeOptions | undefined;
   textContentType?: TextContentType;
   label: string;
-  control?: FormControlType;
+  control: FormControlType;
 }
 
 export const Input = ({
@@ -29,7 +29,7 @@ export const Input = ({
   } = useController({
     name,
     control,
-    rules: { required: true },
+    rules: { required: true, shouldUnregister: true },
   });
   const colors = useAppSelector(selectColors);
   const styles = makeInputStyles(colors);

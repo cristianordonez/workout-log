@@ -57,26 +57,31 @@ type TextContentType =
 
 interface ProgramForm {
   programName: string;
+  days: { name: "" }[];
+  sets: {
+    isAmrap: boolean;
+    noReps: number;
+    type: "absolute" | "percentage";
+    percentageMultiplier: number;
+    weight: number;
+  }[];
 }
 
 interface SelectExerciseSearch {
   exerciseName: string;
 }
 
-// todo change this type of any to explicit type
-type FormControlType = any;
-
 // SETS
 interface SetType {
-  setRankOrder: number;
+  rankOrder: number;
   isAmrap: boolean;
   noReps: number;
   type: "percentage" | "absolute";
-  percentageMultiplier: number | null;
+  percentageMultiplier: number;
   weight: number;
-  setId: number | null;
-  exerciseId: number | null;
-  dayId: number | null;
+  setId: number;
+  exerciseId: number;
+  dayId: number;
 }
 // EXERCISE
 interface ExerciseType {
@@ -87,8 +92,8 @@ interface ExerciseType {
   body_part: string;
 }
 interface NewExercise {
-  exerciseRankOrder: number;
-  dayId: number | null;
+  rankOrder: number;
+  dayId: number;
 }
 type AddExerciseType = NewExercise & ExerciseType;
 
@@ -99,7 +104,7 @@ interface UpdateNewDay {
 }
 interface Day {
   dayId: number;
-  dayRankOrder: number;
+  rankOrder: number;
   name: string;
 }
 

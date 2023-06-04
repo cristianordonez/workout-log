@@ -7,6 +7,7 @@ import {
   UpdateNewDay,
 } from "../../types/types";
 import { getUniqueId } from "../../utils/getUniqueId";
+import { getUpdatedRankOrder } from "../../utils/getUpdatedRankOrder";
 import type { RootState } from "../store/store";
 
 interface NewProgramState {
@@ -18,25 +19,25 @@ interface NewProgramState {
 }
 
 const initialSetState: SetType = {
-  setRankOrder: 0,
+  rankOrder: 0,
   isAmrap: false,
   noReps: 0,
   type: "percentage",
-  percentageMultiplier: null,
+  percentageMultiplier: 0,
   weight: 0,
   setId: 0,
-  exerciseId: null,
-  dayId: null,
+  exerciseId: 0,
+  dayId: 0,
 };
 
 // no need for unique exercise id because exercise from sqlite db will have one
 const initialExerciseState: NewExercise = {
-  exerciseRankOrder: 0,
-  dayId: null,
+  rankOrder: 0,
+  dayId: 0,
 };
 
 const initialDayState: Day = {
-  dayRankOrder: 0,
+  rankOrder: 0,
   dayId: getUniqueId(),
   name: "",
 };
@@ -57,13 +58,8 @@ export const newProgramSlice = createSlice({
     addNewProgramDay(state: NewProgramState, action: PayloadAction<number>) {
       let newDay = { ...initialDayState };
       newDay.dayId = action.payload;
-      let currentRankOrder = 0;
-      state.days.forEach((day) => {
-        if (day.dayRankOrder > currentRankOrder) {
-          currentRankOrder = day.dayRankOrder;
-        }
-      });
-      newDay.dayRankOrder == currentRankOrder + 1;
+      const currentRankOrder = getUpdatedRankOrder(state.days);
+      newDay.rankOrder == currentRankOrder;
       state.days.push(newDay);
     },
     // adds new exercise to specific new program day with updated exercise rank order and given dayId
@@ -76,13 +72,8 @@ export const newProgramSlice = createSlice({
         ...exercise,
         ...initialExerciseState,
       };
-      let currentExerciseRankOrder = 0;
-      state.exercises.forEach((exercise) => {
-        if (exercise.exerciseRankOrder > currentExerciseRankOrder) {
-          currentExerciseRankOrder = exercise.exerciseRankOrder;
-        }
-      });
-      newExercise.exerciseRankOrder = currentExerciseRankOrder + 1;
+      const currentExerciseRankOrder = getUpdatedRankOrder(state.exercises);
+      newExercise.rankOrder = currentExerciseRankOrder;
       newExercise.dayId = dayId;
       state.exercises.push(newExercise);
     },
@@ -92,14 +83,15 @@ export const newProgramSlice = createSlice({
       action: PayloadAction<{
         dayId: number;
         exerciseId: number;
-        setId: number;
       }>
     ) {
-      const { dayId, exerciseId, setId } = action.payload;
+      const { dayId, exerciseId } = action.payload;
       let newSet = { ...initialSetState };
-      newSet.setId = setId;
+      newSet.setId = getUniqueId();
       newSet.exerciseId = exerciseId;
       newSet.dayId = dayId;
+      const currentRankOrder = getUpdatedRankOrder(state.sets);
+      newSet.rankOrder = currentRankOrder;
       state.sets.push(newSet);
     },
     // updates specific set with updated user data
