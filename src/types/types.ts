@@ -57,14 +57,9 @@ type TextContentType =
 
 interface ProgramForm {
   programName: string;
-  days: { name: "" }[];
-  sets: {
-    isAmrap: boolean;
-    noReps: number;
-    type: "absolute" | "percentage";
-    percentageMultiplier: number;
-    weight: number;
-  }[];
+  days: Day[];
+  exercises: AddExerciseType[];
+  sets: SetType[];
 }
 
 interface SelectExerciseSearch {
@@ -82,20 +77,22 @@ interface SetType {
   setId: number;
   exerciseId: number;
   dayId: number;
+  id: string;
 }
 // EXERCISE
 interface ExerciseType {
-  id: number;
+  id?: number;
   name: string;
   equipment: string;
   gif: string;
   body_part: string;
 }
-interface NewExercise {
+interface NewExerciseType {
   rankOrder: number;
   dayId: number;
+  exerciseId: number;
 }
-type AddExerciseType = NewExercise & ExerciseType;
+type AddExerciseType = NewExerciseType & ExerciseType;
 
 // DAYS
 interface UpdateNewDay {
@@ -121,11 +118,10 @@ export {
   ExerciseType,
   ProgramForm,
   SelectExerciseSearch,
-  FormControlType,
   Day,
   Program,
   AddExerciseType,
   SetType,
   UpdateNewDay,
-  NewExercise,
+  NewExerciseType,
 };

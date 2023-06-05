@@ -1,9 +1,10 @@
 import { AntDesign } from "@expo/vector-icons";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { View } from "react-native";
-import { getSetsByDayAndExerciseId } from "../../redux/reducers/newProgramReducer";
-import { useAppSelector } from "../../redux/redux-hooks/hooks";
+import { SetType } from "../../types/types";
 import { formatTitle } from "../../utils/formatTitle";
+import { getUniqueId } from "../../utils/getUniqueId";
+import { getUpdatedRankOrder } from "../../utils/getUpdatedRankOrder";
 import { Button } from "../button/Button";
 import { CustomText } from "../custom-text/CustomText";
 import { NewSet } from "../new-set/NewSet";
@@ -13,28 +14,47 @@ interface Props {
   dayId: number;
   name: string;
   exerciseRankOrder: number;
-  handleAddSet: (exerciseRankOrder: number) => void;
+  index: number;
 }
+
+const initialSetState: SetType = {
+  rankOrder: 0,
+  isAmrap: false,
+  noReps: 0,
+  type: "percentage",
+  percentageMultiplier: 0,
+  weight: 0,
+  setId: 0,
+  exerciseId: 0,
+  dayId: 0,
+  id: "",
+};
 
 export function NewExercise({
   exerciseId,
   dayId,
   name,
   exerciseRankOrder,
-  handleAddSet,
+  index,
 }: Props) {
-  const sets = useAppSelector((state) =>
-    getSetsByDayAndExerciseId(state, dayId, exerciseId)
-  );
   const { control } = useFormContext();
-
-  // field arrays for sets
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
-      control, // control props comes from useForm (optional: if you are using FormContext)
-      name: "sets",
+      control,
+      name: `exercises.${index}.sets` as "exercises.0.sets",
     }
   );
+  const sets = fields as unknown as SetType[];
+
+  const handleAddSet = (exerciseId: number) => {
+    let newSet = { ...initialSetState };
+    newSet.setId = getUniqueId();
+    newSet.exerciseId = exerciseId;
+    newSet.dayId = dayId;
+    const currentRankOrder = getUpdatedRankOrder(sets);
+    newSet.rankOrder = currentRankOrder;
+    append(newSet);
+  };
 
   return (
     <View>
@@ -42,13 +62,14 @@ export function NewExercise({
         <CustomText humanText={formatTitle(name)} type="h3" />
         <AntDesign name="edit" size={24} color="#ffffff" />
       </View>
-      <View>
+      <View style={{ display: "flex", gap: 20 }}>
         <CustomText humanText="Set" type="h4" />
-        {sets.map((set) => (
+        {sets.map((set, index) => (
           <NewSet
-            key={set.setId}
+            key={set.id}
             setRankOrder={set.rankOrder}
             setId={set.setId}
+            index={index}
           />
         ))}
       </View>

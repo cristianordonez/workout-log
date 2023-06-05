@@ -35,7 +35,16 @@ export const currentProgramsSlice = createSlice({
   name: "currentPrograms",
   initialState,
   reducers: {
-    // adds new day with given dayId and updated day rank order
+    //// beginActiveWorkout(state) {
+    ////   if (state.isWorkoutActive) {
+    ////   } else {
+    ////     let interval;
+    ////     state.isWorkoutActive = true;
+    ////     interval = window.setInterval(() => {
+    ////       state.timerInSeconds++;
+    ////     }, 1000);
+    ////   }
+    //// },
   },
   extraReducers: (builder) => {
     builder
